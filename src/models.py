@@ -1,6 +1,6 @@
 from datetime import date
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, Date
+from sqlalchemy import String, Boolean, Date, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 db = SQLAlchemy()
@@ -31,7 +31,8 @@ class Comentario(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     descripcion: Mapped[str] = mapped_column(String(200), nullable=False)
     fechaCreacion: Mapped[date] = mapped_column(Date)
-    # publicacionId:
+    publicacionId: Mapped[int] = mapped_column(ForeignKey("publicacion.id"))
+    usuarioId: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
 
 class Adjunto(db.Model):
@@ -39,7 +40,7 @@ class Adjunto(db.Model):
     # campos
     id: Mapped[int] = mapped_column(primary_key=True)
     tipo: Mapped[str] = mapped_column(String(15), nullable=False)
-    # publicacionId:
+    publicacionId: Mapped[int] = mapped_column(ForeignKey("publicacion.id"))
 
 
 class Publicacion(db.Model):
@@ -48,4 +49,4 @@ class Publicacion(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     descripcion: Mapped[str] = mapped_column(String(200), nullable=False)
     fechaCreacion: Mapped[date] = mapped_column(Date)
-    #usuarioId:
+    usuarioId: Mapped[int] = mapped_column(ForeignKey("user.id"))
